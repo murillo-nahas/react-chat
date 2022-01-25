@@ -68,7 +68,7 @@ function Title(props) {
 // export default HomePage
 
 export default function PaginaInicial() {
-  const username = "peas";
+  const username = "murillo-nahas";
 
   return (
     <>
@@ -117,7 +117,7 @@ export default function PaginaInicial() {
               marginBottom: "32px",
             }}
           >
-            <Title tag="h2">Boas vindas de volta!</Title>
+            <Title tag="h2">Welcome again!</Title>
             <Text
               variant="body3"
               styleSheet={{
@@ -141,7 +141,7 @@ export default function PaginaInicial() {
             />
             <Button
               type="submit"
-              label="Entrar"
+              label="To enter"
               fullWidth
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
