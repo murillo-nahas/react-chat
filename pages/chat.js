@@ -14,7 +14,7 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 function getMessages(addMessage) {
   return supabaseClient
     .from('messages')
-    .on('INSERT', ({ getAnswer }) => {
+    .on('INSERT', (getAnswer) => {
       addMessage(getAnswer.new)
     })
     .subscribe();
@@ -23,7 +23,7 @@ function getMessages(addMessage) {
 export default function ChatPage() {
   const router = useRouter();
   const usuarioLogado = router.query.username;
-  const [mensagem, setMensagem] = React.useState("");
+  const [mensagem, setMensagem] = React.useState('');
   const [listaDeMensagens, setListaDeMensagens] = React.useState([
   ]);
 
@@ -37,12 +37,16 @@ export default function ChatPage() {
       setListaDeMensagens(data)
     });
 
-    getMessages((novaMensagem) => {
+    const subscription = getMessages((novaMensagem) => {
      setListaDeMensagens((valorAtual) => {
         return [novaMensagem, ...valorAtual,
         ]
      });
     });
+
+    return () => {
+      subscription.unsubscribe();
+    }
   }, []);
 
   function handleNovaMensagem(novaMensagem) {
@@ -55,10 +59,12 @@ export default function ChatPage() {
     supabaseClient.from('messages').insert([
       mensagem
     ])
-    .then();
+    .then(({ data }) => {
+      console.log(data);
+    });
 
     // setListaDeMensagens([mensagem, ...listaDeMensagens]);
-    setMensagem("");
+    setMensagem('');
   }
 
   return (
